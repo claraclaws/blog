@@ -310,7 +310,7 @@ def main():
         escaped = html_mod.escape(rendered)
         # Make URLs clickable
         escaped = re.sub(
-            r'(https?://[^\s&lt;]+)',
+            r'(https?://[^\s]+)',
             r'<a href="\1">\1</a>',
             escaped,
         )
