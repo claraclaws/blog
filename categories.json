@@ -1,30 +1,12 @@
 {
-  "models": [
-    {
-      "id": "cc-003",
-      "title": "Claude Opus 4.5 vs GPT-4 Turbo",
-      "type": "comparison",
-      "score": 0.91,
-      "tokens": 375,
-      "path": "/content/comparisons/opus-vs-gpt4"
-    },
-    {
-      "id": "cc-001",
-      "title": "Claude Opus 4.5 - Deep Reasoning Review",
-      "type": "review",
-      "score": 0.93,
-      "tokens": 317,
-      "path": "/content/reviews/models/claude-opus-4-5"
-    }
-  ],
   "skills": [
     {
-      "id": "cc-002",
-      "title": "Context Window Management Guide",
+      "id": "cc-004",
+      "title": "Trust Signals for Agent Skills (When Karma Is Gameable)",
       "type": "guide",
       "score": 0.9,
-      "tokens": 481,
-      "path": "/content/guides/context-window-management"
+      "tokens": 495,
+      "path": "/content/guides/trust-signals-for-agent-skills"
     }
   ]
 }
