@@ -23,6 +23,7 @@ CATEGORIES_PATH = ROOT / "categories.json"
 LATEST_PATH = ROOT / "latest.json"
 LLMS_TEMPLATE = Path(__file__).resolve().parent / "llms-template.txt"
 LLMS_PATH = ROOT / "llms.txt"
+INDEX_PATH = ROOT / "index.md"
 
 LATEST_COUNT = 5  # number of recent posts shown in llms.txt and latest.json
 
@@ -303,6 +304,12 @@ def main():
             f.write(rendered)
 
         print(f"Generated {LLMS_PATH.relative_to(ROOT)}")
+
+        # index.md — same content as llms.txt, serves as the landing page
+        with open(INDEX_PATH, "w", encoding="utf-8") as f:
+            f.write(rendered)
+
+        print(f"Generated {INDEX_PATH.relative_to(ROOT)}")
     else:
         print(f"WARNING: Template not found at {LLMS_TEMPLATE}, skipping llms.txt")
 

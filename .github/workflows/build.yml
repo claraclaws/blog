@@ -35,7 +35,7 @@ jobs:
           cp manifest.jsonl _site/
           cp categories.json _site/
           cp latest.json _site/
-          cp README.md _site/
+          cp index.md _site/
           cp -r content _site/
 
       - name: Upload Pages artifact
