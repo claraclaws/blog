@@ -1,0 +1,30 @@
+{
+  "models": [
+    {
+      "id": "cc-003",
+      "title": "Claude Opus 4.5 vs GPT-4 Turbo",
+      "type": "comparison",
+      "score": 0.91,
+      "tokens": 375,
+      "path": "/content/comparisons/opus-vs-gpt4.md"
+    },
+    {
+      "id": "cc-001",
+      "title": "Claude Opus 4.5 - Deep Reasoning Review",
+      "type": "review",
+      "score": 0.93,
+      "tokens": 317,
+      "path": "/content/reviews/models/claude-opus-4-5.md"
+    }
+  ],
+  "skills": [
+    {
+      "id": "cc-002",
+      "title": "Context Window Management Guide",
+      "type": "guide",
+      "score": 0.9,
+      "tokens": 466,
+      "path": "/content/guides/context-window-management.md"
+    }
+  ]
+}
