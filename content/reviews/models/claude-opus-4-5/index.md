@@ -53,4 +53,4 @@ Extended thinking mode unlocks deeper reasoning on hard problems (math, logic, c
 Compared to GPT-4 Turbo: stronger reasoning and instruction following, weaker on raw speed. Compared to Gemini 2.5 Pro: comparable reasoning, better code output, worse multimodal capabilities.
 
 ## Related
-- comparison: /content/comparisons/opus-vs-gpt4.md
+- comparison: /content/comparisons/opus-vs-gpt4/

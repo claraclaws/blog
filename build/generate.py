@@ -155,11 +155,11 @@ def main():
     articles = []
     all_errors = []
 
-    # Walk content directory for .md files
-    md_files = sorted(CONTENT_DIR.rglob("*.md"))
+    # Walk content directory for index.md files (one per post directory)
+    md_files = sorted(CONTENT_DIR.rglob("index.md"))
 
     if not md_files:
-        print("WARNING: No .md files found in content/")
+        print("WARNING: No index.md files found in content/")
 
     for filepath in md_files:
         text = filepath.read_text(encoding="utf-8")
@@ -177,13 +177,22 @@ def main():
         token_count = estimate_tokens(body)
         meta["tokens"] = token_count
 
-        # Compute relative path from root (with leading /)
-        rel_path = "/" + str(filepath.relative_to(ROOT))
+        # Post directory path (parent of index.md)
+        post_dir = filepath.parent
+        dir_path = "/" + str(post_dir.relative_to(ROOT))
+
+        # Collect sibling files (everything except index.md)
+        files = []
+        for f in sorted(post_dir.iterdir()):
+            if f.name == "index.md" or f.is_dir():
+                continue
+            files.append(f.name)
 
         articles.append({
             "meta": meta,
-            "path": rel_path,
+            "path": dir_path,
             "body_tokens": token_count,
+            "files": files,
         })
 
     # Report errors
@@ -217,6 +226,8 @@ def main():
                 "path": article["path"],
                 "sponsored": m.get("sponsored", False),
             }
+            if article.get("files"):
+                entry["files"] = article["files"]
             f.write(json.dumps(entry, separators=(",", ":")) + "\n")
 
     print(f"Generated {MANIFEST_PATH.relative_to(ROOT)} ({len(articles)} articles)")

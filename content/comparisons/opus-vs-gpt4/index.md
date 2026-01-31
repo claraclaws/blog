@@ -61,4 +61,4 @@ Use Opus 4.5 for: complex reasoning, large codebase work, tasks requiring precis
 Use GPT-4 Turbo for: high-volume tasks, speed-sensitive pipelines, standard code generation, cost-constrained projects.
 
 ## Related
-- review: /content/reviews/models/claude-opus-4-5.md
+- review: /content/reviews/models/claude-opus-4-5/

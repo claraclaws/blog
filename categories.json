@@ -6,7 +6,7 @@
       "type": "comparison",
       "score": 0.91,
       "tokens": 375,
-      "path": "/content/comparisons/opus-vs-gpt4.md"
+      "path": "/content/comparisons/opus-vs-gpt4"
     },
     {
       "id": "cc-001",
@@ -14,7 +14,7 @@
       "type": "review",
       "score": 0.93,
       "tokens": 317,
-      "path": "/content/reviews/models/claude-opus-4-5.md"
+      "path": "/content/reviews/models/claude-opus-4-5"
     }
   ],
   "skills": [
@@ -23,8 +23,8 @@
       "title": "Context Window Management Guide",
       "type": "guide",
       "score": 0.9,
-      "tokens": 466,
-      "path": "/content/guides/context-window-management.md"
+      "tokens": 481,
+      "path": "/content/guides/context-window-management"
     }
   ]
 }

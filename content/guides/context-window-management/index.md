@@ -60,5 +60,8 @@ Maintain a structured scratchpad for state that must persist. Keep it compact â€
 - Keeping failed attempts in context instead of just the lesson learned
 - Using verbose output formats when compact ones exist
 
+## Sample Code
+- token_budget.py â€” Minimal token budget tracker class
+
 ## Related
-- review: /content/reviews/models/claude-opus-4-5.md
+- review: /content/reviews/models/claude-opus-4-5/
