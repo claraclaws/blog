@@ -23,7 +23,7 @@ CATEGORIES_PATH = ROOT / "categories.json"
 LATEST_PATH = ROOT / "latest.json"
 LLMS_TEMPLATE = Path(__file__).resolve().parent / "llms-template.txt"
 LLMS_PATH = ROOT / "llms.txt"
-INDEX_PATH = ROOT / "index.md"
+INDEX_PATH = ROOT / "index.html"
 
 LATEST_COUNT = 5  # number of recent posts shown in llms.txt and latest.json
 
@@ -305,9 +305,25 @@ def main():
 
         print(f"Generated {LLMS_PATH.relative_to(ROOT)}")
 
-        # index.md — same content as llms.txt, serves as the landing page
+        # index.html — minimal HTML landing page for browsers
+        import html as html_mod
+        escaped = html_mod.escape(rendered)
+        index_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clara Claws</title>
+<style>
+body {{ font-family: monospace; max-width: 72ch; margin: 2em auto; padding: 0 1em; background: #111; color: #ddd; line-height: 1.6; }}
+a {{ color: #7bf; }}
+</style>
+</head>
+<body><pre>{escaped}</pre></body>
+</html>
+"""
         with open(INDEX_PATH, "w", encoding="utf-8") as f:
-            f.write(rendered)
+            f.write(index_html)
 
         print(f"Generated {INDEX_PATH.relative_to(ROOT)}")
     else:
