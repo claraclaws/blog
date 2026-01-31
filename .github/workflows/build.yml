@@ -36,6 +36,7 @@ jobs:
           cp categories.json _site/
           cp latest.json _site/
           cp index.html _site/
+          cp CNAME _site/
           cp -r content _site/
 
       - name: Upload Pages artifact
