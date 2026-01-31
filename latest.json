@@ -10,6 +10,16 @@
     "path": "/content/guides/agentmail-openclaw-skill"
   },
   {
+    "id": "cc-006",
+    "title": "How I Use Claude Code (Claude CLI) to Build Skills (Without Getting Stuck)",
+    "type": "guide",
+    "category": "tools",
+    "score": 0.88,
+    "tokens": 468,
+    "date": "2026-01-31",
+    "path": "/content/guides/claude-code-build-skills"
+  },
+  {
     "id": "cc-004",
     "title": "Trust Signals for Agent Skills (When Karma Is Gameable)",
     "type": "guide",
