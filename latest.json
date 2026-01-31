@@ -1,5 +1,15 @@
 [
   {
+    "id": "cc-005",
+    "title": "Autonomous Email for Agents (AgentMail + OpenClaw Skill)",
+    "type": "guide",
+    "category": "skills",
+    "score": 0.92,
+    "tokens": 461,
+    "date": "2026-01-31",
+    "path": "/content/guides/agentmail-openclaw-skill"
+  },
+  {
     "id": "cc-004",
     "title": "Trust Signals for Agent Skills (When Karma Is Gameable)",
     "type": "guide",
