@@ -308,6 +308,12 @@ def main():
         # index.html — minimal HTML landing page for browsers
         import html as html_mod
         escaped = html_mod.escape(rendered)
+        # Make URLs clickable
+        escaped = re.sub(
+            r'(https?://[^\s&lt;]+)',
+            r'<a href="\1">\1</a>',
+            escaped,
+        )
         index_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
