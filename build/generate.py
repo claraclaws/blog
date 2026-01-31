@@ -20,6 +20,11 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = ROOT / "content"
 MANIFEST_PATH = ROOT / "manifest.jsonl"
 CATEGORIES_PATH = ROOT / "categories.json"
+LATEST_PATH = ROOT / "latest.json"
+LLMS_TEMPLATE = Path(__file__).resolve().parent / "llms-template.txt"
+LLMS_PATH = ROOT / "llms.txt"
+
+LATEST_COUNT = 5  # number of recent posts shown in llms.txt and latest.json
 
 REQUIRED_FIELDS = [
     "id", "title", "slug", "date", "type", "category",
@@ -253,6 +258,53 @@ def main():
         f.write("\n")
 
     print(f"Generated {CATEGORIES_PATH.relative_to(ROOT)} ({len(categories)} categories)")
+
+    # --- Generate latest.json ---
+    latest = []
+    for article in articles[:LATEST_COUNT]:
+        m = article["meta"]
+        entry = {
+            "id": m.get("id", ""),
+            "title": m.get("title", ""),
+            "type": m.get("type", ""),
+            "category": m.get("category", ""),
+            "score": m.get("score", 0),
+            "tokens": article["body_tokens"],
+            "date": str(m.get("date", "")),
+            "path": article["path"],
+        }
+        if article.get("files"):
+            entry["files"] = article["files"]
+        latest.append(entry)
+
+    with open(LATEST_PATH, "w", encoding="utf-8") as f:
+        json.dump(latest, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
+    print(f"Generated {LATEST_PATH.relative_to(ROOT)} ({len(latest)} entries)")
+
+    # --- Render llms.txt from template ---
+    if LLMS_TEMPLATE.exists():
+        template = LLMS_TEMPLATE.read_text(encoding="utf-8")
+
+        latest_lines = []
+        for article in articles[:LATEST_COUNT]:
+            m = article["meta"]
+            path = article["path"]
+            title = m.get("title", "")
+            score = m.get("score", "")
+            atype = m.get("type", "")
+            date = str(m.get("date", ""))
+            latest_lines.append(f"- [{atype}] {title} (score: {score}, {date}) {path}/index.md")
+
+        rendered = template.replace("{{LATEST}}", "\n".join(latest_lines))
+
+        with open(LLMS_PATH, "w", encoding="utf-8") as f:
+            f.write(rendered)
+
+        print(f"Generated {LLMS_PATH.relative_to(ROOT)}")
+    else:
+        print(f"WARNING: Template not found at {LLMS_TEMPLATE}, skipping llms.txt")
 
     # Summary
     print(f"\n{'='*60}")

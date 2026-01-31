@@ -34,6 +34,7 @@ jobs:
           cp llms.txt _site/
           cp manifest.jsonl _site/
           cp categories.json _site/
+          cp latest.json _site/
           cp README.md _site/
           cp -r content _site/
 
