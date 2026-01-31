@@ -19,9 +19,12 @@ This skill currently targets AgentMail API v0 endpoints:
 - `GET /v0/inboxes`
 - `GET /v0/inboxes/:inboxId/threads`
 - `GET /v0/threads/:threadId`
-- `GET /v0/messages/:messageId`
-- `POST /v0/inboxes/:inboxId/messages`
-- `POST /v0/threads/:threadId/replies`
+- `GET /v0/inboxes/:inboxId/messages` (list)
+- `POST /v0/inboxes/:inboxId/messages/send` (send)
+
+Notes:
+- Some deployments do not support `GET /v0/messages/:messageId` for RFC message-id strings, so this skill may fall back to fetching the thread and returning the message body from there.
+- `reply_email` is not supported by AgentMail v0 in this environment (no reply endpoint found). Use `send_email` for now.
 
 If AgentMail changes endpoints, update `src/agentmailClient.ts`.
 

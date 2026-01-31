@@ -187,13 +187,76 @@ export async function getThread(threadId: string): Promise<ThreadDetail> {
 }
 
 /**
- * Get a single message by ID, including body and attachment metadata.
+ * Get a single message by ID.
+ *
+ * AgentMail v0 appears to use RFC Message-Id strings (e.g. "<...@...>") as IDs.
+ * Some deployments may not support `/v0/messages/:id` for those IDs.
+ *
+ * Strategy:
+ * 1) Try direct message fetch endpoint.
+ * 2) If 404, fall back to scanning recent threads in the inbox and returning
+ *    the first matching message payload.
  */
 export async function getMessage(messageId: string): Promise<Message> {
-  return request<Message>({
-    method: "GET",
-    path: `/v0/messages/${encodeURIComponent(messageId)}`,
-  });
+  try {
+    return await request<Message>({
+      method: "GET",
+      path: `/v0/messages/${encodeURIComponent(messageId)}`,
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    // If endpoint not found for this id, fall back.
+    if (msg.includes("404") || msg.includes("Not Found")) {
+      return await findMessageViaThreads(messageId);
+    }
+    throw err;
+  }
+}
+
+async function findMessageViaThreads(messageId: string): Promise<Message> {
+  // Minimal fallback: list a few pages of threads and look for a matching message_id.
+  // NOTE: This is intentionally bounded to avoid expensive scans.
+  const inboxId = process.env.AGENTMAIL_INBOX_ID;
+  if (!inboxId) {
+    throw new Error(
+      "Message fetch fallback requires AGENTMAIL_INBOX_ID env var to be set (e.g. claraclaws@agentmail.to)."
+    );
+  }
+
+  let cursor: string | undefined;
+  for (let page = 0; page < 3; page++) {
+    const list = await request<{ threads: Array<{ thread_id: string }>; cursor?: string | null }>({
+      method: "GET",
+      path: `/v0/inboxes/${encodeURIComponent(inboxId)}/threads`,
+      query: { limit: 20, cursor },
+    });
+
+    for (const t of list.threads ?? []) {
+      const thread = await getThread(t.thread_id);
+      const messages = (thread as any).messages as any[] | undefined;
+      if (!messages) continue;
+      const found = messages.find((m) => m && m.message_id === messageId);
+      if (found) {
+        // Thread message payloads include text/html and metadata but not attachments.
+        return {
+          id: found.message_id,
+          thread_id: found.thread_id,
+          from: found.from,
+          to: found.to,
+          subject: found.subject,
+          date: found.timestamp,
+          body_text: found.text ?? found.extracted_text ?? null,
+          body_html: found.html ?? found.extracted_html ?? null,
+          attachments: null,
+        } as Message;
+      }
+    }
+
+    cursor = (list as any).cursor || undefined;
+    if (!cursor) break;
+  }
+
+  throw new Error(`Message not found via thread scan: ${messageId}`);
 }
 
 /**
@@ -205,23 +268,27 @@ export async function sendEmail(
   subject: string,
   bodyText: string
 ): Promise<SendResponse> {
+  // AgentMail docs: client.inboxes.messages.send(inbox_id=..., to=..., subject=..., text=...)
+  // Empirically works at: POST /v0/inboxes/{inbox_id}/messages/send
   return request<SendResponse>({
     method: "POST",
-    path: `/v0/inboxes/${encodeURIComponent(inboxId)}/messages`,
-    body: { to, subject, body_text: bodyText },
+    path: `/v0/inboxes/${encodeURIComponent(inboxId)}/messages/send`,
+    body: { to, subject, text: bodyText },
   });
 }
 
 /**
  * Reply to an existing thread.
+ *
+ * AgentMail v0 does not appear to expose a simple thread-reply endpoint.
+ * For now, callers should use sendEmail (new thread) or implement a provider-
+ * specific reply mechanism once AgentMail exposes it.
  */
 export async function replyEmail(
   threadId: string,
   bodyText: string
 ): Promise<SendResponse> {
-  return request<SendResponse>({
-    method: "POST",
-    path: `/v0/threads/${encodeURIComponent(threadId)}/replies`,
-    body: { body_text: bodyText },
-  });
+  throw new Error(
+    `reply_email not implemented for AgentMail v0 (threadId=${threadId}). Use send_email to start a new thread instead.`
+  );
 }

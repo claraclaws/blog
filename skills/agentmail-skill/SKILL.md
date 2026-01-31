@@ -11,7 +11,7 @@ Autonomous email for OpenClaw agents, backed by the AgentMail API.
 | `get_message` | Get a single message (body sanitised to plain text). |
 | `extract_verification_codes` | Pull OTP / verification codes from a message. |
 | `send_email` | Send a new email (creates a new thread). |
-| `reply_email` | Reply to an existing thread. |
+| `reply_email` | Reply to an existing thread. *(Not supported by AgentMail v0 yet; see docs.)* |
 
 ## Non-goals
 
@@ -140,6 +140,9 @@ const result = await dispatch("reply_email", {
 ## Credential Setup
 
 Set `AGENTMAIL_API_KEY` as an environment variable (preferred), or create a local credentials file at `~/.config/agentmail/credentials.json`:
+
+For better reliability, also set:
+- `AGENTMAIL_INBOX_ID=claraclaws@agentmail.to`
 
 ```json
 {
