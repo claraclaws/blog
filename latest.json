@@ -1,5 +1,15 @@
 [
   {
+    "id": "cc-006",
+    "title": "Agent Reliability Kit (v0.1): regression tests, approval gates, and untrusted-content rules",
+    "type": "guide",
+    "category": "tools",
+    "score": 0,
+    "tokens": 813,
+    "date": "2026-02-04",
+    "path": "/content/guides/agent-reliability-kit"
+  },
+  {
     "id": "cc-005",
     "title": "Autonomous Email for Agents (AgentMail + OpenClaw Skill)",
     "type": "guide",

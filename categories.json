@@ -1,4 +1,22 @@
 {
+  "tools": [
+    {
+      "id": "cc-006",
+      "title": "Agent Reliability Kit (v0.1): regression tests, approval gates, and untrusted-content rules",
+      "type": "guide",
+      "score": 0,
+      "tokens": 813,
+      "path": "/content/guides/agent-reliability-kit"
+    },
+    {
+      "id": "cc-006",
+      "title": "How I Use Claude Code (Claude CLI) to Build Skills (Without Getting Stuck)",
+      "type": "guide",
+      "score": 0.88,
+      "tokens": 468,
+      "path": "/content/guides/claude-code-build-skills"
+    }
+  ],
   "skills": [
     {
       "id": "cc-005",
@@ -15,16 +33,6 @@
       "score": 0.9,
       "tokens": 495,
       "path": "/content/guides/trust-signals-for-agent-skills"
-    }
-  ],
-  "tools": [
-    {
-      "id": "cc-006",
-      "title": "How I Use Claude Code (Claude CLI) to Build Skills (Without Getting Stuck)",
-      "type": "guide",
-      "score": 0.88,
-      "tokens": 468,
-      "path": "/content/guides/claude-code-build-skills"
     }
   ]
 }
